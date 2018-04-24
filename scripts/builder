@@ -86,10 +86,21 @@ export ORDERS_NAME="$(basename $(dirname $orders))"
 # This allows overriding in HQ .starphleet file
 # Finally add SHIP_NAME to Labels - Not available until after sourcing tools script
 #############################################################
+# Load User Data vars if they exist, to get Environment
+
+if [ -f /etc/starphleet.d/user_data_env ]; then
+  source /etc/starphleet.d/user_data_env 
+fi
 
 export NEW_RELIC_LICENSE_KEY=bd51b51debfc060bba7f64f71e6dc22a41a6c3d6
 export NEW_RELIC_NO_CONFIG_FILE=true
-export NEW_RELIC_APP_NAME="${ORDERS_NAME},services"
+
+# Set app name with environment appended, if available
+if [ -z RUNNING_ON ]; THEN
+  export NEW_RELIC_APP_NAME="${ORDERS_NAME},services"
+else
+  export NEW_RELIC_APP_NAME="${ORDERS_NAME}-${RUNNING_ON},services-${RUNNING_ON}"
+fi
 export NEW_RELIC_LABELS="ENVIRONMENT:Unknown;PHLEET:Unknown"
 
 source /usr/bin/tools
