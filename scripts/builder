@@ -96,7 +96,7 @@ export NEW_RELIC_LICENSE_KEY=bd51b51debfc060bba7f64f71e6dc22a41a6c3d6
 export NEW_RELIC_NO_CONFIG_FILE=true
 
 # Set app name with environment appended, if available
-if [ -z RUNNING_ON ]; THEN
+if [ -z RUNNING_ON ]; then
   export NEW_RELIC_APP_NAME="${ORDERS_NAME},services"
 else
   export NEW_RELIC_APP_NAME="${ORDERS_NAME}-${RUNNING_ON},services-${RUNNING_ON}"
