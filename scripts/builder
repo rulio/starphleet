@@ -79,7 +79,24 @@ export HOME=${app_root}
 export ORDERS_IN=${app_root}
 
 export ORDERS_NAME="$(basename $(dirname $orders))"
+
+#############################################################
+# New Relic - May be overridden in HQ .starphleet file
+# Set New_Relic env vars befor sourcing tools script
+# This allows overriding in HQ .starphleet file
+# Finally add SHIP_NAME to Labels - Not available until after sourcing tools script
+#############################################################
+
+export NEW_RELIC_LICENSE_KEY=bd51b51debfc060bba7f64f71e6dc22a41a6c3d6
+export NEW_RELIC_NO_CONFIG_FILE=true
+export NEW_RELIC_APP_NAME="${ORDERS_NAME},services"
+export NEW_RELIC_LABELS="ENVIRONMENT:Unknown;PHLEET:Unknown"
+
 source /usr/bin/tools
+
+export NEW_RELIC_LABELS="${NEW_RELIC_LABELS};SHIP:$SHIP_NAME"
+
+
 container_environment ${app_root} ${orders}
 if [[ -f Procfile ]]; then
     ruby -e "require 'yaml';puts YAML.load_file('Procfile')['\$1']" | bash
