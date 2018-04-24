@@ -101,7 +101,7 @@ if [ -z RUNNING_ON ]; THEN
 else
   export NEW_RELIC_APP_NAME="${ORDERS_NAME}-${RUNNING_ON},services-${RUNNING_ON}"
 fi
-export NEW_RELIC_LABELS="ENVIRONMENT:Unknown;PHLEET:Unknown"
+
 
 source /usr/bin/tools
 
